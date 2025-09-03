@@ -8,6 +8,10 @@ version = "0.1.0"
 [system-requirements]
 cuda = "12.6"
 
+[tasks]
+
+train_salad = {cmd = "python main.py --epochs 4 --dataset_base '/home/alejandro/OpenVPRLab/data'"}
+
 [dependencies]
 # Python tools
 python="*"
