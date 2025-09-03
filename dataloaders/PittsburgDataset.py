@@ -1,3 +1,4 @@
+import random
 from os.path import join, exists
 from collections import namedtuple
 from scipy.io import loadmat
@@ -8,6 +9,8 @@ import torch.utils.data as data
 
 from PIL import Image, UnidentifiedImageError
 from sklearn.neighbors import NearestNeighbors
+
+from config import ROTATION_INVARIANT
 
 root_dir = '../data/Pittsburgh/'
 
@@ -109,6 +112,10 @@ class WholeDatasetFromStruct(data.Dataset):
 
         try:
             img = Image.open(self.images[index])
+            if ROTATION_INVARIANT:
+                angle = random.choice([0, 90, 180, 270])
+                if angle != 0:
+                    img = img.rotate(angle, expand=True)
         except UnidentifiedImageError:
             print(f'Image {self.images[index]} could not be loaded')
             img = Image.new('RGB', (224, 224))

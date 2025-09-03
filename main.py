@@ -1,9 +1,23 @@
+import time
+import argparse
 import pytorch_lightning as pl
 
+import config
 from vpr_model import VPRModel
 from dataloaders.GSVCitiesDataloader import GSVCitiesDataModule
 
+start_time = time.time()
 if __name__ == '__main__':        
+
+    parser = argparse.ArgumentParser(description="Train VPR model")
+    parser.add_argument("--epochs", type=int, default=4,
+                        help="Number of training epochs (default: 4)")
+    parser.add_argument("--rotation_invariant", action="store_true",
+                        help="Enable rotation-invariant training (default: False)")
+    args = parser.parse_args()
+
+    config.ROTATION_INVARIANT = args.rotation_invariant
+
     datamodule = GSVCitiesDataModule(
         batch_size=60,
         img_per_place=4,
@@ -72,7 +86,7 @@ if __name__ == '__main__':
         num_nodes=1,
         num_sanity_val_steps=0, # runs a validation step before stating training
         precision='16-mixed', # we use half precision to reduce  memory usage
-        max_epochs=4,
+        max_epochs=args.epochs,
         check_val_every_n_epoch=1, # run validation every epoch
         callbacks=[checkpoint_cb],# we only run the checkpointing callback (you can add more)
         reload_dataloaders_every_n_epochs=1, # we reload the dataset to shuffle the order
@@ -81,3 +95,6 @@ if __name__ == '__main__':
 
     # we call the trainer, we give it the model and the datamodule
     trainer.fit(model=model, datamodule=datamodule)
+
+    end_time = time.time()
+    print(f"Elapsed time: {end_time - start_time:.4f} seconds")

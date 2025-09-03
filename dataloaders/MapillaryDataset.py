@@ -1,7 +1,10 @@
+import random
 from pathlib import Path
 import numpy as np
 from PIL import Image
 from torch.utils.data import Dataset
+
+from config import ROTATION_INVARIANT
 
 # NOTE: you need to download the mapillary_sls dataset from  https://github.com/FrederikWarburg/mapillary_sls
 # make sure the path where the mapillary_sls validation dataset resides on your computer is correct.
@@ -42,9 +45,13 @@ class MSLS(Dataset):
     
     def __getitem__(self, index):
         img = Image.open(DATASET_ROOT+self.images[index])
+        if ROTATION_INVARIANT:
+            angle = random.choice([0, 90, 180, 270])
+            if angle != 0:
+                img = img.rotate(angle, expand=True)
 
         if self.input_transform:
-            img = self.input_transform(img)
+            img = self.input_transform(img)            
 
         return img, index
 

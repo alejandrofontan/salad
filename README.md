@@ -4,6 +4,11 @@ Sergio Izquierdo, Javier Civera
 
 Code and models for Optimal Transport Aggregation for Visual Place Recognition (DINOv2 SALAD).
 
+## Pixi Project
+```bash
+python train.py --epochs 10
+```
+
 ## Summary
 
 We introduce DINOv2 SALAD, a Visual Place Recognition model that achieves state-of-the-art results on common benchmarks. We introduce two main contributions:

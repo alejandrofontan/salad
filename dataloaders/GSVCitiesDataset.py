@@ -1,5 +1,6 @@
 # https://github.com/amaralibey/gsv-cities
 
+import random
 import pandas as pd
 from pathlib import Path
 from PIL import Image, ImageFile, UnidentifiedImageError
@@ -7,6 +8,8 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 import torch
 from torch.utils.data import Dataset
 import torchvision.transforms as T
+
+from config import ROTATION_INVARIANT
 
 default_transform = T.Compose([
     T.ToTensor(),
@@ -124,7 +127,12 @@ class GSVCitiesDataset(Dataset):
     @staticmethod
     def image_loader(path):
         try:
-            return Image.open(path).convert('RGB')
+            img = Image.open(path).convert('RGB')
+            if ROTATION_INVARIANT:
+                angle = random.choice([0, 90, 180, 270])
+                if angle != 0:
+                    img = img.rotate(angle, expand=True)
+            return img
         except UnidentifiedImageError:
             print(f'Image {path} could not be loaded')
             return Image.new('RGB', (224, 224))
