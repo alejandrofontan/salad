@@ -11,6 +11,7 @@ cuda = "12.6"
 [tasks]
 
 train_salad = {cmd = "python main.py --epochs 4 --dataset_base '/home/alejandro/OpenVPRLab/data'"}
+remove_logs = {cmd = "rm -rf logs"}
 
 [dependencies]
 # Python tools
