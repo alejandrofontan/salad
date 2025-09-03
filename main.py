@@ -14,6 +14,8 @@ if __name__ == '__main__':
                         help="Number of training epochs (default: 4)")
     parser.add_argument("--rotation_invariant", action="store_true",
                         help="Enable rotation-invariant training (default: False)")
+    parser.add_argument("--dataset_base", type=str, default=config.DATASET_BASE_PATH,
+                        help="Base path to datasets")
     args = parser.parse_args()
 
     config.ROTATION_INVARIANT = args.rotation_invariant

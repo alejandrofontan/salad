@@ -11,8 +11,9 @@ from PIL import Image, UnidentifiedImageError
 from sklearn.neighbors import NearestNeighbors
 
 from config import ROTATION_INVARIANT
+from config import DATASET_BASE_PATH
 
-root_dir = '../data/Pittsburgh/'
+root_dir = join(DATASET_BASE_PATH, 'val/pitts30k-val/')
 
 if not exists(root_dir):
     raise FileNotFoundError(

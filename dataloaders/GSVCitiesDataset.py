@@ -1,5 +1,6 @@
 # https://github.com/amaralibey/gsv-cities
 
+import os
 import random
 import pandas as pd
 from pathlib import Path
@@ -10,6 +11,7 @@ from torch.utils.data import Dataset
 import torchvision.transforms as T
 
 from config import ROTATION_INVARIANT
+from config import DATASET_BASE_PATH
 
 default_transform = T.Compose([
     T.ToTensor(),
@@ -17,7 +19,7 @@ default_transform = T.Compose([
 ])
 
 # NOTE: Hard coded path to dataset folder 
-BASE_PATH = '../data/GSVCities/'
+BASE_PATH = os.path.join(DATASET_BASE_PATH, 'train/gsv-cities/')
 
 if not Path(BASE_PATH).exists():
     raise FileNotFoundError(

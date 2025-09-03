@@ -1,16 +1,18 @@
 import random
+import os
 from pathlib import Path
 import numpy as np
 from PIL import Image
 from torch.utils.data import Dataset
 
 from config import ROTATION_INVARIANT
+from config import DATASET_BASE_PATH
 
 # NOTE: you need to download the mapillary_sls dataset from  https://github.com/FrederikWarburg/mapillary_sls
 # make sure the path where the mapillary_sls validation dataset resides on your computer is correct.
 # the folder named train_val should reside in DATASET_ROOT path (that's the only folder you need from mapillary_sls)
 # I hardcoded the groundtruth for image to image evaluation, otherwise it would take ages to run the groundtruth script at each epoch.
-DATASET_ROOT = '../data/mapillary/'
+DATASET_ROOT = os.path.join(DATASET_BASE_PATH, 'val/msls-val/')
 
 path_obj = Path(DATASET_ROOT)
 if not path_obj.exists():
