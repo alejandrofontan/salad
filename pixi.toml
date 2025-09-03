@@ -1,0 +1,55 @@
+[workspace]
+authors = ["alejandrofontan <fontanvillacampa@gmail.com>"]
+channels = ["conda-forge"]
+name = "salad"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[system-requirements]
+cuda = "12.6"
+
+[dependencies]
+# Python tools
+python="*"
+setuptools = "*"
+pip = "*"
+
+# Torch libraries
+pytorch-gpu = "*"
+torchvision = "*"
+pytorch-lightning = "*"
+pytorch-metric-learning = "*"
+torchmetrics = "*"
+tensorboard = "*"
+tensorboardx = "*"
+
+# CUDA Build Tools
+cuda-compiler = "*"
+cuda-version = "12.6.*"
+cuda-cudart-dev = "*"
+cuda-crt = "*"
+libcusparse-dev = "*"
+cuda-driver-dev = "*"
+cuda-nvcc = "*"
+cuda-nvrtc-dev = "*"
+cuda-nvtx = "*"
+cuda-nvtx-dev = "*"
+cuda-nvml-dev = "*"
+cuda-profiler-api = "*"
+
+# CUDA Libraries
+cudnn = "*"
+libcublas-dev = "*"
+libcudss-dev = "*"
+libcufile-dev = "*"
+libcufft-dev = "*"
+libcurand-dev = "*"
+libcusolver-dev = "*"
+cusparselt = "*"
+libnvjitlink = "*"
+
+# Others
+faiss-gpu = "*"
+pandas = "*"
+prettytable = "*"
+xformers = "*"
