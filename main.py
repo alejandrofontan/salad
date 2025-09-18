@@ -1,4 +1,6 @@
+import os
 import time
+import json
 import argparse
 import pytorch_lightning as pl
 
@@ -19,7 +21,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     config.ROTATION_INVARIANT = args.rotation_invariant
-
+    print(f"Rotation Invariant Training: {config.ROTATION_INVARIANT}")
+    
     datamodule = GSVCitiesDataModule(
         batch_size=60,
         img_per_place=4,
@@ -99,4 +102,33 @@ if __name__ == '__main__':
     trainer.fit(model=model, datamodule=datamodule)
 
     end_time = time.time()
-    print(f"Elapsed time: {end_time - start_time:.4f} seconds")
+    elapsed_time = end_time - start_time
+    print(f"Elapsed time: {elapsed_time:.4f} seconds")
+
+    # Save experiment config in the version_i folder
+    log_dir = trainer.logger.log_dir if trainer.logger else trainer.default_root_dir
+    os.makedirs(log_dir, exist_ok=True)
+    experiment_config = {
+        "epochs": args.epochs,
+        "rotation_invariant": args.rotation_invariant,
+        "dataset_base": args.dataset_base,
+        "model": {
+            "backbone_arch": model.encoder_arch,
+            "backbone_config": model.backbone_config,
+            #"agg_arch": model.aggregator_arch,
+            #"agg_config": model.aggregator_config,
+            "optimizer": model.optimizer,
+            "lr": model.lr,
+            "weight_decay": model.weight_decay,
+            "momentum": model.momentum,
+            "lr_sched": model.lr_sched,
+            "lr_sched_args": model.lr_sched_args,
+            "loss_name": model.loss_name,
+            "miner_name": model.miner_name,
+            "miner_margin": model.miner_margin,
+        },
+        "start_time": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(start_time)),
+        "elapsed_time": elapsed_time
+    }
+    with open(os.path.join(log_dir, "experiment_log.json"), "w") as f:
+        json.dump(experiment_config, f, indent=4)   

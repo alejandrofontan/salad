@@ -113,7 +113,7 @@ class WholeDatasetFromStruct(data.Dataset):
 
         try:
             img = Image.open(self.images[index])
-            if ROTATION_INVARIANT:
+            if True: #ROTATION_INVARIANT:
                 angle = random.choice([0, 90, 180, 270])
                 if angle != 0:
                     img = img.rotate(angle, expand=True)
